@@ -1,2 +1,2 @@
 # RegistryStore
-Microserverice for that provides a database for 
+Microserverice that provides a database for static data, such as device references, spatial information, etc.
