@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: repositoryservice
+  datasource:
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/${DATABASE_NAME:smartheating_db}?verifyServerCertificate=false&useSSL=true&createDatabaseIfNotExist=true&serverTimezone=Europe/Berlin
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+  profiles:
+    active: "dev"
+server:
+  port: ${SERVER_PORT:9011}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+    enabled: false
+  instance:
+    preferIpAddress: true
+---
+spring:
+  profiles: dev
+
