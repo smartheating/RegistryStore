@@ -1,0 +1,20 @@
+version: '3.7'
+
+services: 
+  repository-service:
+    image: repository
+    ports:
+      - 9011:9011
+    environment:
+      - DATABASE_HOST=mysql
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=smartheating_db
+      - DATABASE_PORT=9003
+    container_name: repository
+    hostname: repository
+
+networks:
+  default:
+    external:
+      name: smartheating
