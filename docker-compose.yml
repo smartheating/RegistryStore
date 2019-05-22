@@ -13,7 +13,7 @@ services:
       - DATABASE_USER=root
       - DATABASE_PASSWORD=root
       - DATABASE_NAME=smartheating_db
-      - DATABASE_PORT=9003
+      - DATABASE_PORT=3306
     container_name: repository
     hostname: repository
 
