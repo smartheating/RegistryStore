@@ -28,7 +28,7 @@ eureka:
 spring:
   profiles: docker
   datasource:
-    url: jdbc:mysql://${DATABASE_HOST:mysql}:${DATABASE_PORT:9003}/${DATABASE_NAME:smartheating_db}?verifyServerCertificate=false&useSSL=true&createDatabaseIfNotExist=true&serverTimezone=Europe/Berlin
+    url: jdbc:mysql://${DATABASE_HOST:mysql}:${DATABASE_PORT:3306}/${DATABASE_NAME:smartheating_db}?verifyServerCertificate=false&useSSL=true&createDatabaseIfNotExist=true&serverTimezone=Europe/Berlin
     username: ${DATABASE_USER:root}
     password: ${DATABASE_PASSWORD:root}
   jpa:

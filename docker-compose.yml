@@ -2,6 +2,9 @@ version: '3.7'
 
 services: 
   repository-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: repository
     ports:
       - 9011:9011
