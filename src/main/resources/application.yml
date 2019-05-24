@@ -16,12 +16,12 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:9000/eureka/
-    enabled: true
+    enabled: false
   instance:
     preferIpAddress: true
 ---
