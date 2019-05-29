@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.smartheating.SmartHeatingCommons.databaseInterfaces.SensorEventRepository;
-import de.smartheating.SmartHeatingCommons.databaseInterfaces.SensorRepository;
+import de.smartheating.SmartHeatingCommons.databaseInterfaces.DeviceRepository;
 import de.smartheating.SmartHeatingCommons.exceptions.DatabaseConnectionException;
-import de.smartheating.SmartHeatingCommons.persistedData.Sensor;
 import de.smartheating.SmartHeatingCommons.persistedData.SensorEvent;
 import javassist.NotFoundException;
 
@@ -22,17 +21,12 @@ public class SensorEventService {
 	@Autowired
 	SensorEventRepository eventRepo;
 	@Autowired
-	SensorRepository sensorRepo;
+	DeviceRepository sensorRepo;
 	@Autowired
 	CopyDataService copyService;
 
 	public SensorEvent addEvent(SensorEvent sensorEvent) throws DatabaseConnectionException, NotFoundException {
-		logger.info("Trying to save a sensor event from the sensor with the id: " + sensorEvent.getSensorId());
-		Optional<Sensor> eventSensor = sensorRepo.findById(sensorEvent.getSensorId());
-		if (!eventSensor.isPresent()) {
-			throw new NotFoundException("This event belongs to a unknown sensor");
-		}
-		copyService.convertStringValue(eventSensor.get().getValueType(), sensorEvent);
+		logger.info("Trying to save a sensor event from the device with the id: " + sensorEvent.getSensorId());
 		return eventRepo.save(sensorEvent);
 	}
 

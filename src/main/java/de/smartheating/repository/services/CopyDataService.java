@@ -8,8 +8,6 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Service;
 
-import de.smartheating.SmartHeatingCommons.persistedData.SensorEvent;
-
 @Service
 public class CopyDataService {
 
@@ -45,22 +43,4 @@ public class CopyDataService {
 		return emptyNames.toArray(result);
 	}
 	
-	public SensorEvent convertStringValue(String type, SensorEvent event) {
-		switch (type) {
-		case "str":
-			return event;
-		case "bool":
-			event.setBooleanValue(Boolean.parseBoolean(event.getStringValue()));
-			return event;
-		case "int":
-			event.setIntegerValue(Integer.parseInt(event.getStringValue()));
-			return event;
-		case "float":
-			event.setFloatValue(Float.valueOf(event.getStringValue()));
-			return event;
-		default:
-			return event;
-		}
-		
-	}
 }

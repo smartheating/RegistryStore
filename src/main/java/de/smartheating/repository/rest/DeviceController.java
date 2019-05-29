@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.smartheating.SmartHeatingCommons.exceptions.DatabaseConnectionException;
-import de.smartheating.SmartHeatingCommons.persistedData.Sensor;
-import de.smartheating.repository.services.SensorService;
+import de.smartheating.SmartHeatingCommons.persistedData.Device;
+import de.smartheating.repository.services.DeviceService;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 
 @RestController
-@RequestMapping(path = "/sensors")
-public class SensorController {
+@RequestMapping(path = "/devices")
+public class DeviceController {
 	
-	Logger logger = LoggerFactory.getLogger(SensorController.class);
+	Logger logger = LoggerFactory.getLogger(DeviceController.class);
 
 	@Autowired
-	SensorService sensorService;
+	DeviceService deviceService;
 
 	@PostMapping(produces = "application/json")
-	@ApiOperation(value = "Persist sensor data inside the database")
-	public ResponseEntity<?> addSensor(@RequestBody Sensor sensor) {
+	@ApiOperation(value = "Persist device data inside the database")
+	public ResponseEntity<?> addDevice(@RequestBody Device device) {
 		try {
-			logger.info("Got request to add a new sensor with the name: " + sensor.getSensorName());
-			return new ResponseEntity<>(sensorService.addSensor(sensor), HttpStatus.OK);
+			logger.info("Got request to add a new device with the name: " + device.getDeviceName());
+			return new ResponseEntity<>(deviceService.addDevice(device), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,11 +42,11 @@ public class SensorController {
 	}
 	
 	@GetMapping(produces = "application/json")
-	@ApiOperation(value = "Get all sensors from the database")
-	public ResponseEntity<?> getSensors() {
+	@ApiOperation(value = "Get all devices from the database")
+	public ResponseEntity<?> getDevices() {
 		try {
-			logger.info("Got request to get all sensors");
-			return new ResponseEntity<>(sensorService.getSensors(), HttpStatus.OK);
+			logger.info("Got request to get all devices");
+			return new ResponseEntity<>(deviceService.getDevices(), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -57,11 +57,11 @@ public class SensorController {
 	}
 	
 	@GetMapping(value = "/{id}", produces = "application/json")
-	@ApiOperation(value = "Get a single sensor inside the database")
-	public ResponseEntity<?> getSensorById(@PathVariable Long id) {
+	@ApiOperation(value = "Get a single device inside the database")
+	public ResponseEntity<?> getDeviceById(@PathVariable Long id) {
 		try {
-			logger.info("Got request to get the sensor with the id: " + id);
-			return new ResponseEntity<>(sensorService.getSensorById(id), HttpStatus.OK);
+			logger.info("Got request to get the device with the id: " + id);
+			return new ResponseEntity<>(deviceService.getDeviceById(id), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,11 +72,11 @@ public class SensorController {
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
-	@ApiOperation(value = "Update a sensor that is already inside the database")
-	public ResponseEntity<?> updateSensor(@PathVariable Long id, @RequestBody Sensor sensor) {
+	@ApiOperation(value = "Update a device that is already inside the database")
+	public ResponseEntity<?> updateDevice(@PathVariable Long id, @RequestBody Device device) {
 		try {
-			logger.info("Got request to update a sensor with the id: " + id);
-			return new ResponseEntity<>(sensorService.updateSensor(sensor, id), HttpStatus.OK);
+			logger.info("Got request to update a device with the id: " + id);
+			return new ResponseEntity<>(deviceService.updateDevice(device, id), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,12 +88,12 @@ public class SensorController {
 	
 
 	@DeleteMapping(value = "/{id}", produces = "application/json")
-	@ApiOperation(value = "Remove a sensor from the database")
-	public ResponseEntity<?> removeSensor(@PathVariable Long id) {
+	@ApiOperation(value = "Remove a device from the database")
+	public ResponseEntity<?> removeDevice(@PathVariable Long id) {
 		try {
-			logger.info("Got request to remove the sensor with the id: " + id);
-			sensorService.removeSensor(id);
-			return new ResponseEntity<>("Sensor deleted!", HttpStatus.OK);
+			logger.info("Got request to remove the device with the id: " + id);
+			deviceService.removeDevice(id);
+			return new ResponseEntity<>("Device deleted!", HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
