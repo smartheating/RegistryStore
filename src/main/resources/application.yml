@@ -1,6 +1,6 @@
 spring:
   application:
-    name: repositoryservice
+    name: repository
   profiles:
     active: "dev"
 server:
