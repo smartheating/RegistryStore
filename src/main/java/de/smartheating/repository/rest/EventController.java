@@ -14,26 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.smartheating.SmartHeatingCommons.exceptions.DatabaseConnectionException;
-import de.smartheating.SmartHeatingCommons.persistedData.SensorEvent;
-import de.smartheating.repository.services.SensorEventService;
+import de.smartheating.SmartHeatingCommons.persistedData.Event;
+import de.smartheating.repository.services.EventService;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 
 @RestController
-@RequestMapping(path = "/sensorevents")
-public class SensorEventController {
+@RequestMapping(path = "/events")
+public class EventController {
 	
-	Logger logger = LoggerFactory.getLogger(SensorEventController.class);
+	Logger logger = LoggerFactory.getLogger(EventController.class);
 
 	@Autowired
-	SensorEventService sensorEventService;
+	EventService eventService;
 
 	@PostMapping(produces = "application/json")
-	@ApiOperation(value = "Persist sensor events inside the database")
-	public ResponseEntity<?> addEvent(@RequestBody SensorEvent sensorEvent) {
+	@ApiOperation(value = "Persist events inside the database")
+	public ResponseEntity<?> addEvent(@RequestBody Event event) {
 		try {
-			logger.info("Got request to add a new sensor event from the sensor with id: " + sensorEvent.getSensorId());
-			return new ResponseEntity<>(sensorEventService.addEvent(sensorEvent), HttpStatus.OK);
+			logger.info("Got request to add a new event from the device with id: " + event.getDeviceId());
+			return new ResponseEntity<>(eventService.addEvent(event), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -44,11 +44,11 @@ public class SensorEventController {
 	}
 	
 	@GetMapping(produces = "application/json")
-	@ApiOperation(value = "Get all sensor events from the database")
+	@ApiOperation(value = "Get all events from the database")
 	public ResponseEntity<?> getEvents() {
 		try {
-			logger.info("Got request to get all sensor events");
-			return new ResponseEntity<>(sensorEventService.getEvents(), HttpStatus.OK);
+			logger.info("Got request to get all events");
+			return new ResponseEntity<>(eventService.getEvents(), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,11 +59,11 @@ public class SensorEventController {
 	}
 	
 	@GetMapping(value = "/{id}", produces = "application/json")
-	@ApiOperation(value = "Get a single sensor event inside the database")
+	@ApiOperation(value = "Get a single event inside the database")
 	public ResponseEntity<?> getEventById(@PathVariable Long id) {
 		try {
-			logger.info("Got request to get the sensor event with the id: " + id);
-			return new ResponseEntity<>(sensorEventService.getEventById(id), HttpStatus.OK);
+			logger.info("Got request to get the event with the id: " + id);
+			return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,12 +74,12 @@ public class SensorEventController {
 	}
 
 	@DeleteMapping(value = "/{id}", produces = "application/json")
-	@ApiOperation(value = "Remove a sensor event from the database")
+	@ApiOperation(value = "Remove a event from the database")
 	public ResponseEntity<?> removeEvent(@PathVariable Long id) {
 		try {
-			logger.info("Got request to remove the sensor event with the id: " + id);
-			sensorEventService.removeEvent(id);
-			return new ResponseEntity<>("Sensor deleted!", HttpStatus.OK);
+			logger.info("Got request to remove the event with the id: " + id);
+			eventService.removeEvent(id);
+			return new ResponseEntity<>("Event deleted!", HttpStatus.OK);
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
