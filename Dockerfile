@@ -1,6 +1,9 @@
-FROM java:8-jdk-alpine
-VOLUME /tmp
-EXPOSE 9011
-ARG JAR_FILE=target/repository-0.0.1-SNAPSHOT.jar
-ADD ${JAR_FILE} repository.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=docker","-jar","/repository.jar"]
+FROM maven:3-jdk-8
+
+RUN git clone https://github.com/smartheating/CommonsModule.git
+WORKDIR /CommonsModule
+RUN mvn clean install -DskipTests
+RUN git clone https://github.com/smartheating/Repository.git /Repository
+WORKDIR /Repository
+RUN mvn clean install -DskipTests
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=docker","-jar","target/repository-0.0.1-SNAPSHOT.jar"]
