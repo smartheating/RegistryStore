@@ -42,3 +42,22 @@ eureka:
     enabled: true
   instance:
     preferIpAddress: true
+    
+---
+spring:
+  profiles: aws
+  datasource:
+    url: jdbc:mysql://${MYSQL_PRIVATE_IP}:${DATABASE_PORT:3306}/${DATABASE_NAME:smartheating_db}?verifyServerCertificate=false&useSSL=true&createDatabaseIfNotExist=true&serverTimezone=Europe/Berlin
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${SERVICE_REGISTRATION_PRIVATE_IP}:9000/eureka/
+    enabled: true
+  instance:
+    preferIpAddress: true
