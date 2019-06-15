@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.smartheating.SmartHeatingCommons.exceptions.DatabaseConnectionException;
@@ -55,6 +56,23 @@ public class EventController {
 		} catch (NotFoundException e) {
 			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(produces = "application/json")
+	@ApiOperation(value = "Remove all events from the database. Password is 'delete'")
+	public ResponseEntity<?> removeAllEvents(@RequestParam(value = "password", required = true) String password) {
+		// Check delete password
+		if (!password.equals("delete")) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		try {
+			logger.info("Got request to remove all events from the database");
+			eventService.removeAllEvents();
+			return new ResponseEntity<>("Event deleted!", HttpStatus.OK);
+		} catch (DatabaseConnectionException d) {
+			logger.error("Could not connect with database: " + d.getMessage());
+			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

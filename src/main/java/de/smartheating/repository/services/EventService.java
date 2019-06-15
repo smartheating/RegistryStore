@@ -53,4 +53,9 @@ public class EventService {
 		logger.info("Trying to read all events from database");
         return eventRepo.findAll();
 	}
+
+	public void removeAllEvents() throws DatabaseConnectionException {
+		logger.info("Trying to remove all events from the database");
+		eventRepo.deleteAll();
+	}
 }
