@@ -50,9 +50,6 @@ public class DeviceController {
 		} catch (DatabaseConnectionException d) {
 			logger.error("Could not connect with database: " + d.getMessage());
 			return new ResponseEntity<>(d.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (NotFoundException e) {
-			logger.error(e.getMessage());
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 	

@@ -65,7 +65,7 @@ public class DeviceService {
 	    return savedDevice.get();
 	}
 	
-	public Iterable<Device> getDevices() throws DatabaseConnectionException, NotFoundException {
+	public Iterable<Device> getDevices() throws DatabaseConnectionException {
 		logger.info("Trying to read devices from database");
         return deviceRepo.findAll();
 	}

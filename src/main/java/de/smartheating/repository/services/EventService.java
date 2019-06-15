@@ -22,7 +22,7 @@ public class EventService {
 	@Autowired
 	CopyDataService copyService;
 
-	public Event addEvent(Event event) throws DatabaseConnectionException, NotFoundException {
+	public Event addEvent(Event event) throws DatabaseConnectionException {
 		logger.info("Trying to save a event from the device with the id: " + event.getDeviceId());
 		return eventRepo.save(event);
 	}
@@ -49,7 +49,7 @@ public class EventService {
 	    return savedEvent.get();
 	}
 	
-	public Iterable<Event> getEvents() throws DatabaseConnectionException, NotFoundException {
+	public Iterable<Event> getEvents() throws DatabaseConnectionException {
 		logger.info("Trying to read all events from database");
         return eventRepo.findAll();
 	}
